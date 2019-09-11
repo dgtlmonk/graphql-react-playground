@@ -40,10 +40,6 @@ const BookType = new GraphQLObjectType({
   })
 });
 
-// frontend: book(id :'11') {
-// name,
-// genre
-// }
 const RootQuery = new GraphQLObjectType({
   name: "RootQueryType",
   fields: {
@@ -52,8 +48,6 @@ const RootQuery = new GraphQLObjectType({
       args: { id: { type: GraphQLID } },
       resolve(parent, args) {
         return _.find(books, { id: args.id });
-        // code to get data from db
-        // args = query params object
       }
     },
     books: {
@@ -61,8 +55,6 @@ const RootQuery = new GraphQLObjectType({
       // args: { id: { type: GraphQLID } },
       resolve(parent, args) {
         return books;
-        // code to get data from db
-        // args = query params object
       }
     },
     author: {
