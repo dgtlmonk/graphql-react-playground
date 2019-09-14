@@ -2,7 +2,7 @@ import Book from "../models/book";
 import Author from "../models/author";
 import { getObjectId } from "./helper";
 import mongoose from "mongoose";
-import { rejects } from "assert";
+import chalk from "chalk";
 
 const bookNames = [
   "Shopworn Angel, The",
@@ -43,7 +43,7 @@ let authorsNames = [
 export const generateAuthors = () => {
   let authors = [];
   //TODO: add chalk
-  console.log("Seeding author collection ...");
+  console.log(chalk.greenBright("Info:"), "Seeding author collection ...");
 
   for (let i = 0; i <= authorsNames.length - 1; i++) {
     const authorName = authorsNames[i];
@@ -54,7 +54,6 @@ export const generateAuthors = () => {
     });
     authors.push(author);
   }
-  console.log("-------- \n");
   return authors;
 };
 
@@ -85,35 +84,46 @@ mongoose.connect(
 // generateAuthors();
 
 mongoose.connection.once("open", async () => {
-  console.log("Connection to mongo cloud db accepted, seeding started ...");
-  console.log("Housekeeping collections...");
-  const dropCollection = await mongoose.connection.collection("authors").drop();
-  const callSeedAuthors = await seedAuthors();
+  console.log(
+    chalk.greenBright("Info:"),
+    "Connection to mongo cloud db accepted, seeding started ...."
+  );
+  console.log(chalk.greenBright("cleaning up collections..."));
 
-
-  if (callSeedAuthors) {
-    // seedBooks();
-    mongoose.disconnect();
-  } else {
-    console.log("Something went wrong!");
+  try {
+    const authorCollectionDropped = await mongoose.connection
+      .collection("authors")
+      .drop();
+  } catch (e) {
+    console.log(
+      chalk.white.bgRed.bold("Warning:"),
+      " trying to drop non-existent collection `author`"
+    );
+  } finally {
+    const callSeedAuthors = await seedAuthors();
+    if (callSeedAuthors.status === "200") {
+      // seedBooks();
+      mongoose.disconnect();
+    } else {
+      console.log("Something went wrong!");
+    }
   }
 });
 
 const seedAuthors = async () => {
   const authors = generateAuthors();
-  // return new Promise((resolve, rejects) => {
+  return new Promise((resolve, rejects) => {
     for (let i = 0; i <= authors.length - 1; i++) {
       authors[i].save((err, res) => {
         if (err) {
-          return await Promise.rejects({ error: err });
+          return rejects({ error: err });
         }
         if (i === authors.length - 1) {
           // mongoose.disconnect();
           console.log("Done seeding author collections...");
-          // resolve("ok");
-          return await Promise.resolve({ status: "200"})
+          resolve({ status: "200" });
         }
       });
     }
-  // });
+  });
 };
