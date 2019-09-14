@@ -1,0 +1,62 @@
+[
+  {
+    "id": "5d7bfca6fc13ae40cf000000",
+    "name": "Shopworn Angel, The",
+    "authorId": 22,
+    "genre": "Drama|Romance|War"
+  },
+  {
+    "id": "5d7bfca6fc13ae40cf000001",
+    "name": "Sex in Chains (Geschlecht in Fesseln)",
+    "authorId": 22,
+    "genre": "Drama"
+  },
+  {
+    "id": "5d7bfca6fc13ae40cf000002",
+    "name": "Night Editor",
+    "authorId": 22,
+    "genre": "Drama"
+  },
+  {
+    "id": "5d7bfca6fc13ae40cf000003",
+    "name": "On My Way (Elle s'en va)",
+    "authorId": 22,
+    "genre": "Comedy|Drama"
+  },
+  {
+    "id": "5d7bfca6fc13ae40cf000004",
+    "name": "Travelling Players, The (O thiasos)",
+    "authorId": 22,
+    "genre": "Drama|War"
+  },
+  {
+    "id": "5d7bfca6fc13ae40cf000005",
+    "name": "Outrageous Fortune",
+    "authorId": 22,
+    "genre": "Comedy|Mystery"
+  },
+  {
+    "id": "5d7bfca6fc13ae40cf000006",
+    "name": "Our Paradise (Notre paradis)",
+    "authorId": 22,
+    "genre": "Crime|Drama"
+  },
+  {
+    "id": "5d7bfca6fc13ae40cf000007",
+    "name": "Stan Helsing",
+    "authorId": 22,
+    "genre": "Comedy|Horror"
+  },
+  {
+    "id": "5d7bfca6fc13ae40cf000008",
+    "name": "Nobel Son",
+    "authorId": 22,
+    "genre": "Comedy|Crime|Drama|Thriller"
+  },
+  {
+    "id": "5d7bfca6fc13ae40cf000009",
+    "name": "Brave Little Toaster, The",
+    "authorId": 22,
+    "genre": "Animation|Children"
+  }
+]
