@@ -52,7 +52,6 @@ export const generateAuthors = () => {
       name: authorName,
       books: []
     });
-    // console.log(`${i} ${author}`);
     authors.push(author);
   }
   console.log("-------- \n");
@@ -73,7 +72,6 @@ export const generateBooks = () => {
     });
 
     books.push(book);
-    // console.log(`${i}. ${book}`);
   }
   return books;
 };
@@ -92,26 +90,30 @@ mongoose.connection.once("open", async () => {
   const dropCollection = await mongoose.connection.collection("authors").drop();
   const callSeedAuthors = await seedAuthors();
 
+
   if (callSeedAuthors) {
     // seedBooks();
     mongoose.disconnect();
+  } else {
+    console.log("Something went wrong!");
   }
 });
 
 const seedAuthors = async () => {
   const authors = generateAuthors();
-  return new Promise((resolve, rejects) => {
+  // return new Promise((resolve, rejects) => {
     for (let i = 0; i <= authors.length - 1; i++) {
       authors[i].save((err, res) => {
         if (err) {
-          return rejects({ error: err });
+          return await Promise.rejects({ error: err });
         }
         if (i === authors.length - 1) {
           // mongoose.disconnect();
           console.log("Done seeding author collections...");
-          resolve("ok");
+          // resolve("ok");
+          return await Promise.resolve({ status: "200"})
         }
       });
     }
-  });
+  // });
 };
