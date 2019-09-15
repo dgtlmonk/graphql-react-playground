@@ -41,38 +41,25 @@ let authorsNames = [
 ];
 
 export const generateAuthors = () => {
-  let authors = [];
   console.log(chalk.greenBright("Info:"), "Seeding authors collection ...");
 
-  for (let i = 0; i <= authorsNames.length - 1; i++) {
-    const authorName = authorsNames[i];
-    const author = new Author({
-      _id: getObjectId(authorName),
-      name: authorName,
-      books: []
-    });
-    authors.push(author);
-  }
-  return authors;
+  return authorsNames.map(
+    author => new Author({ _id: getObjectId(author), name: author, books: [] })
+  );
 };
 
 export const generateBooks = () => {
-  let books = [];
-
   console.log(chalk.greenBright("Info:"), "Seeding books collection ...");
-  for (let i = 0; i <= bookNames.length - 1; i++) {
-    const bookName = bookNames[i];
-    const book = new Book({
-      name: bookName,
-      authorId: getObjectId(
-        authorsNames[Math.ceil(Math.random() * authorsNames.length - 1)]
-      ),
-      genre: genres[Math.ceil(Math.random() * genres.length - 1)]
-    });
-
-    books.push(book);
-  }
-  return books;
+  return bookNames.map(
+    book =>
+      new Book({
+        name: book,
+        authorId: getObjectId(
+          authorsNames[Math.ceil(Math.random() * authorsNames.length - 1)]
+        ),
+        genre: genres[Math.ceil(Math.random() * genres.length - 1)]
+      })
+  );
 };
 
 // FIXME: place credentials in .env
@@ -98,8 +85,6 @@ mongoose.connection.once("open", async () => {
 
   if (seeder) {
     mongoose.disconnect();
-  } else {
-    console.log("Error: Seeding collection failed! ", seeder);
   }
 });
 
