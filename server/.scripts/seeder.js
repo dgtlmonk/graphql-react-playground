@@ -42,8 +42,7 @@ let authorsNames = [
 
 export const generateAuthors = () => {
   let authors = [];
-  //TODO: add chalk
-  console.log(chalk.greenBright("Info:"), "Seeding author collection ...");
+  console.log(chalk.greenBright("Info:"), "Seeding books collection ...");
 
   for (let i = 0; i <= authorsNames.length - 1; i++) {
     const authorName = authorsNames[i];
@@ -59,13 +58,14 @@ export const generateAuthors = () => {
 
 export const generateBooks = () => {
   let books = [];
-  console.log("Seeding book collection");
+
+  console.log(chalk.greenBright("Info:"), "Seeding books collection ...");
   for (let i = 0; i <= bookNames.length - 1; i++) {
     const bookName = bookNames[i];
     const book = new Book({
       name: bookName,
       authorId: getObjectId(
-        authors[Math.ceil(Math.random() * authors.length - 1)]
+        authorsNames[Math.ceil(Math.random() * authorsNames.length - 1)]
       ),
       genre: genres[Math.ceil(Math.random() * genres.length - 1)]
     });
@@ -81,8 +81,6 @@ mongoose.connect(
   { useNewUrlParser: true, useUnifiedTopology: true }
 );
 
-// generateAuthors();
-
 mongoose.connection.once("open", async () => {
   console.log(
     chalk.greenBright("Info:"),
@@ -90,25 +88,42 @@ mongoose.connection.once("open", async () => {
   );
   console.log(chalk.greenBright("cleaning up collections..."));
 
-  try {
-    const authorCollectionDropped = await mongoose.connection
-      .collection("authors")
-      .drop();
-  } catch (e) {
-    console.log(
-      chalk.white.bgRed.bold("Warning:"),
-      " trying to drop non-existent collection `author`"
-    );
-  } finally {
-    const callSeedAuthors = await seedAuthors();
-    if (callSeedAuthors.status === "200") {
-      // seedBooks();
-      mongoose.disconnect();
-    } else {
-      console.log("Something went wrong!");
-    }
+  await dropCollection("authors");
+  await dropCollection("books");
+
+  const seeder = await Promise.all([
+    seedCollection(`authors`),
+    seedCollection(`books`)
+  ]);
+
+  if (seeder) {
+    mongoose.disconnect();
+  } else {
+    console.log("Error: Seeding collection failed! ", seeder);
   }
 });
+
+// --- HELPERS ------
+/**
+ * @dropCollection drops a collection.
+ * Prints warning if collection doesnt exists
+ */
+const dropCollection = async collection => {
+  return new Promise(async (resolve, rejects) => {
+    try {
+      const authorCollectionDropped = await mongoose.connection
+        .collection(`${collection}`)
+        .drop();
+    } catch (e) {
+      console.log(
+        chalk.white.bgRed.bold("Warning:"),
+        `trying to drop non-existent collection ${collection}`
+      );
+    } finally {
+      resolve({ status: "ok" });
+    }
+  });
+};
 
 const seedAuthors = async () => {
   const authors = generateAuthors();
@@ -119,9 +134,41 @@ const seedAuthors = async () => {
           return rejects({ error: err });
         }
         if (i === authors.length - 1) {
-          // mongoose.disconnect();
-          console.log("Done seeding author collections...");
-          resolve({ status: "200" });
+          console.log(
+            chalk.greenBright("Seeding author collection successful.")
+          );
+          resolve({ status: "ok" });
+        }
+      });
+    }
+  });
+};
+
+const seedCollection = async collectionName => {
+  let collection = [];
+
+  if (collectionName === "books") {
+    collection = generateBooks();
+  } else {
+    collection = generateAuthors();
+  }
+
+  return new Promise((resolve, rejects) => {
+    for (let i = 0; i <= collection.length - 1; i++) {
+      collection[i].save((err, res) => {
+        if (err) {
+          return rejects({ status: `fail`, error: err });
+        }
+
+        if (i === collection.length - 1) {
+          console.log(
+            chalk.greenBright(
+              `Seeding ${chalk.blueBright(
+                collectionName
+              )} collection successful.`
+            )
+          );
+          resolve({ status: "ok" });
         }
       });
     }
