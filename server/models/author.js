@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const Schema = mongoose.Schema;
+const { Schema } = mongoose;
 const authorSchema = new Schema({
   // FIXME:
   // intentionally set this _id manuall due to relationship with books

@@ -1,6 +1,3 @@
-import _ from "lodash";
-import { getObjectId } from "../.scripts/helper";
-import { Book, Author } from "../models/";
 import {
   GraphQLObjectType,
   GraphQLString,
@@ -11,6 +8,8 @@ import {
   GraphQLNonNull
 } from "graphql";
 
+import { Book, Author } from "../models";
+
 const AuthorType = new GraphQLObjectType({
   name: "Author",
   fields: () => ({
@@ -18,8 +17,9 @@ const AuthorType = new GraphQLObjectType({
     name: { type: GraphQLString },
     age: { type: GraphQLInt },
     books: {
+      // eslint-disable-next-line no-use-before-define
       type: new GraphQLList(BookType),
-      resolve(parent, args) {
+      resolve(parent) {
         return Book.find({ authorId: parent.id });
       }
     }
@@ -35,7 +35,7 @@ const BookType = new GraphQLObjectType({
     // relationship
     author: {
       type: AuthorType,
-      resolve(parent, args) {
+      resolve(parent) {
         return Author.findById(parent.authorId);
       }
     }
@@ -54,7 +54,7 @@ const RootQuery = new GraphQLObjectType({
     },
     books: {
       type: new GraphQLList(BookType),
-      resolve(parent, args) {
+      resolve() {
         return Book.find({});
       }
     },
@@ -68,7 +68,7 @@ const RootQuery = new GraphQLObjectType({
     authors: {
       type: new GraphQLList(AuthorType),
       args: { id: { type: GraphQLID } },
-      resolve(parent, args) {
+      resolve() {
         return Author.find({});
       }
     }
@@ -85,7 +85,7 @@ const Mutations = new GraphQLObjectType({
         age: { type: GraphQLInt }
       },
       resolve(parent, args) {
-        let author = new Author({
+        const author = new Author({
           name: args.name,
           age: args.age
         });
@@ -101,7 +101,7 @@ const Mutations = new GraphQLObjectType({
         genre: { type: GraphQLString }
       },
       resolve(parent, args) {
-        let book = new Book({
+        const book = new Book({
           name: args.name,
           authorId: args.authorId,
           genre: args.genre

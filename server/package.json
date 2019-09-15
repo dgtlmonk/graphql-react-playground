@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon start",
-    "seed": "babel-node  .scripts/seeder"
+    "seed": "babel-node  .scripts/seeder",
+    "lint": "eslint ."
   },
   "keywords": [],
   "author": "",
@@ -29,6 +30,9 @@
     "@babel/preset-env": "^7.6.0",
     "@babel/register": "^7.6.0",
     "crypto": "^1.0.1",
+    "eslint": "^6.4.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2",
     "mongo-seeding": "^3.3.0",
     "mongodb": "^3.3.2"
   }

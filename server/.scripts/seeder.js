@@ -111,25 +111,6 @@ const dropCollection = async collection => {
   });
 };
 
-const seedAuthors = async () => {
-  const authors = generateAuthors();
-  return new Promise((resolve, rejects) => {
-    for (let i = 0; i <= authors.length - 1; i++) {
-      authors[i].save((err, res) => {
-        if (err) {
-          rejects({ error: err });
-        }
-        if (i === authors.length - 1) {
-          console.log(
-            chalk.greenBright("Seeding author collection successful.")
-          );
-          resolve({ status: "ok" });
-        }
-      });
-    }
-  });
-};
-
 const seedCollection = async collectionName => {
   let collection = [];
 

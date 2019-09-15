@@ -1,7 +1,7 @@
 ## GraphQL server for React experimental app
 
 
-#### Seed
+#### Seed collection
 > yarn run seed
 
 ### Start server
