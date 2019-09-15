@@ -7,7 +7,8 @@ import {
   GraphQLID,
   GraphQLInt,
   GraphQLSchema,
-  GraphQLList
+  GraphQLList,
+  GraphQLNonNull
 } from "graphql";
 
 const AuthorType = new GraphQLObjectType({
@@ -80,7 +81,7 @@ const Mutations = new GraphQLObjectType({
     addAuthor: {
       type: AuthorType,
       args: {
-        name: { type: GraphQLString },
+        name: { type: new GraphQLNonNull(GraphQLString) },
         age: { type: GraphQLInt }
       },
       resolve(parent, args) {
@@ -95,7 +96,7 @@ const Mutations = new GraphQLObjectType({
     addBook: {
       type: BookType,
       args: {
-        name: { type: GraphQLString },
+        name: { type: new GraphQLNonNull(GraphQLString) },
         authorId: { type: GraphQLID },
         genre: { type: GraphQLString }
       },

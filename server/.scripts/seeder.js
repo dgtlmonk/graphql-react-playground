@@ -83,6 +83,7 @@ mongoose.connection.once("open", async () => {
     seedCollection(`books`)
   ]);
 
+  console.log("seeder ", seeder);
   if (seeder) {
     mongoose.disconnect();
   }
