@@ -42,7 +42,7 @@ let authorsNames = [
 
 export const generateAuthors = () => {
   let authors = [];
-  console.log(chalk.greenBright("Info:"), "Seeding books collection ...");
+  console.log(chalk.greenBright("Info:"), "Seeding authors collection ...");
 
   for (let i = 0; i <= authorsNames.length - 1; i++) {
     const authorName = authorsNames[i];
@@ -131,7 +131,7 @@ const seedAuthors = async () => {
     for (let i = 0; i <= authors.length - 1; i++) {
       authors[i].save((err, res) => {
         if (err) {
-          return rejects({ error: err });
+          rejects({ error: err });
         }
         if (i === authors.length - 1) {
           console.log(
@@ -157,7 +157,7 @@ const seedCollection = async collectionName => {
     for (let i = 0; i <= collection.length - 1; i++) {
       collection[i].save((err, res) => {
         if (err) {
-          return rejects({ status: `fail`, error: err });
+          rejects({ status: `fail`, error: err });
         }
 
         if (i === collection.length - 1) {

@@ -7,7 +7,7 @@ const authorSchema = new Schema({
   // subject to iteration
   _id: mongoose.Types.ObjectId,
   name: String,
-  books: Array // book ids
+  books: Array // book query result
 });
 
 export default mongoose.model("author", authorSchema);
