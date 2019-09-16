@@ -7,4 +7,4 @@ const bookSchema = new Schema({
   genre: String
 });
 
-export default mongoose.model("book", bookSchema);
+export default mongoose.model(`book`, bookSchema);

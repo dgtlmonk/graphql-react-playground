@@ -11,7 +11,7 @@ import {
 import { Book, Author } from "../models";
 
 const AuthorType = new GraphQLObjectType({
-  name: "Author",
+  name: `Author`,
   fields: () => ({
     id: { type: GraphQLID },
     name: { type: GraphQLString },
@@ -27,7 +27,7 @@ const AuthorType = new GraphQLObjectType({
 });
 
 const BookType = new GraphQLObjectType({
-  name: "Book",
+  name: `Book`,
   fields: () => ({
     id: { type: GraphQLID },
     name: { type: GraphQLString },
@@ -43,7 +43,7 @@ const BookType = new GraphQLObjectType({
 });
 
 const RootQuery = new GraphQLObjectType({
-  name: "RootQueryType",
+  name: `RootQueryType`,
   fields: {
     book: {
       type: BookType,
@@ -76,7 +76,7 @@ const RootQuery = new GraphQLObjectType({
 });
 
 const Mutations = new GraphQLObjectType({
-  name: "Mutations",
+  name: `Mutations`,
   fields: {
     addAuthor: {
       type: AuthorType,

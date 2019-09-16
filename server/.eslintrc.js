@@ -13,7 +13,7 @@ module.exports = {
     sourceType: "module"
   },
   rules: {
-    quotes: ["error", "double"],
+    quotes: ["error", "backtick"],
     "comma-dangle": [
       "error",
       {

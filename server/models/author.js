@@ -10,4 +10,4 @@ const authorSchema = new Schema({
   books: Array // book query result
 });
 
-export default mongoose.model("author", authorSchema);
+export default mongoose.model(`author`, authorSchema);

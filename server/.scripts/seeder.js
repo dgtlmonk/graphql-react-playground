@@ -62,37 +62,47 @@ export const generateBooks = () => {
   );
 };
 
-// FIXME: place credentials in .env
-mongoose.connect(
-  "mongodb+srv://dgtlmonk00:joufpIC2NFkmE4lS@react-graphql-lab01-rl2ok.mongodb.net/graphql-lab00",
-  { useNewUrlParser: true, useUnifiedTopology: true }
-);
+const init = async () => {
+  try {
+    // FIXME: place credentials in .env
+    const connect = await mongoose.connect(
+      "mongodb+srv://rw-user:6TfgNgyZG9buzWyn@react-graphql-lab01-rl2ok.mongodb.net/graphql-lab00",
+      // "mongodb+srv://r-user:E3G6UTdKE21TpY7v@react-graphql-lab01-rl2ok.mongodb.net/graphql-lab00",
+      { useNewUrlParser: true, useUnifiedTopology: true }
+    );
+  } catch (e) {
+    console.log(
+      "Failed to access mongodb. Unable to connect (make sure  you have access permission)"
+    );
+  }
+};
 
-mongoose.connection.once("open", async () => {
+mongoose.connection.once("connected", async () => {
   console.log(
     chalk.greenBright("Info:"),
     "Connection to mongo cloud db accepted, seeding started ...."
   );
   console.log(chalk.greenBright("cleaning up collections..."));
 
-  await dropCollection("authors");
-  await dropCollection("books");
-
+  // TODO: Add error handling e.g. permission error
   const seeder = await Promise.all([
+    dropCollection(`authors`),
+    dropCollection(`books`),
     seedCollection(`authors`),
     seedCollection(`books`)
-  ]);
-
-  console.log("seeder ", seeder);
-  if (seeder) {
-    mongoose.disconnect();
-  }
+  ])
+    .catch(e => {
+      console.log("Error: ", e);
+    })
+    .finally(() => {
+      mongoose.disconnect();
+    });
 });
 
 // --- HELPERS ------
 /**
  * @dropCollection drops a collection.
- * Prints warning if collection doesnt exists
+ * Prints warning on operation failure
  */
 const dropCollection = async collection => {
   return new Promise(async (resolve, rejects) => {
@@ -101,12 +111,21 @@ const dropCollection = async collection => {
         .collection(`${collection}`)
         .drop();
     } catch (e) {
+      // code 8000 is no permission
+      if (e.code == 8000) {
+        console.log(
+          chalk.white.bgRed.bold("Error while "),
+          `trying to drop collection ${collection}.  `
+        );
+        return rejects(`No permission.`);
+      }
+
       console.log(
-        chalk.white.bgRed.bold("Warning:"),
-        `trying to drop non-existent collection ${collection}`
+        chalk.white.bgGreen.bold("Warning: "),
+        `trying to drop non-existent collection ${collection}. (non-fatal)`
       );
-    } finally {
-      resolve({ status: "ok" });
+      // allow insert on other errors (collection doesn't exists yet)
+      return resolve(`ok`);
     }
   });
 };
@@ -120,24 +139,28 @@ const seedCollection = async collectionName => {
     collection = generateAuthors();
   }
 
-  return new Promise((resolve, rejects) => {
+  return new Promise(async (resolve, rejects) => {
     for (let i = 0; i <= collection.length - 1; i++) {
-      collection[i].save((err, res) => {
-        if (err) {
-          rejects({ status: `fail`, error: err });
-        }
+      const conn = await collection[i].save();
 
-        if (i === collection.length - 1) {
-          console.log(
-            chalk.greenBright(
-              `Seeding ${chalk.blueBright(
-                collectionName
-              )} collection successful.`
-            )
-          );
-          resolve({ status: "ok" });
-        }
-      });
+      if (!conn) {
+        console.log(`Error seeding ${collectionName}. \n Error: ${err}`);
+        rejects({ status: `fail`, error: err });
+        break;
+      }
+
+      if (i === collection.length - 1) {
+        console.log(
+          chalk.greenBright(
+            `Seeding ${chalk.blueBright(collectionName)} collection successful.`
+          )
+        );
+        return resolve({ status: "success" });
+      }
     }
+  }).catch(e => {
+    Promise.reject({ status: `fail` });
   });
 };
+
+init();
