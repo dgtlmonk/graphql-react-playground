@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "",
+  "description": "A personal learning journey on GraphQL, ExpressJS and ReactJS",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,7 +10,7 @@
     "lint": "./node_modules/.bin/eslint ."
   },
   "keywords": [],
-  "author": "",
+  "author": "Joel Pablo <hello@dgtlmonk.dev>",
   "license": "ISC",
   "dependencies": {
     "apollo-server-express": "^2.9.3",
