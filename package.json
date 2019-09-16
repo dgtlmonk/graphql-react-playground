@@ -1,14 +1,14 @@
 {
   "name": "graphql",
   "version": "1.0.0",
-  "description": "",
+  "description": "A personal learning journey on GraphQL, ExpressJS and ReactJS",
   "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dgtlmonk/graphql-react-playground.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Joel Pablo <hello@dgtlmonk.dev>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/dgtlmonk/graphql-react-playground/issues"
@@ -22,6 +22,8 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.14.3",
+    "husky": "^4.0.0-beta.1",
+    "lint-staged": "^9.2.5",
     "prettier": "^1.18.2",
     "react-scripts": "^3.1.1"
   },
@@ -39,6 +41,19 @@
     "react-apollo": "^3.1.1",
     "react-dom": "^16.9.0"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "eslint"
+    ],
+    "*.{js,jsx,json,md}": [
+      "prettier --list-different"
+    ]
+  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -50,5 +65,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
