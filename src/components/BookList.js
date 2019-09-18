@@ -12,6 +12,7 @@ const getBooks = gql`
     }
   }
 `;
+
 const Books = ({books}) =>
   books.map(book => (
     <div key={book.id}>
@@ -20,8 +21,7 @@ const Books = ({books}) =>
     </div>
   ));
 
-function BookList(props) {
-  const {data} = props;
+function BookList({data}) {
   return (
     <div>
       {data.loading ? (

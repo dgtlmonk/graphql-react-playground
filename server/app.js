@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import express from 'express';
 import graphqlHTTP from 'express-graphql';
+import cors from 'cors';
 import schema from './schema/schema';
 
 const port = 4000;
@@ -9,6 +10,7 @@ const app = express();
 app.use(cors());
 // FIXME: place credentials in .env
 mongoose.connect(
+  // eslint-disable-next-line max-len
   `mongodb+srv://rw-user:6TfgNgyZG9buzWyn@react-graphql-lab01-rl2ok.mongodb.net/graphql-lab00`,
   {useNewUrlParser: true, useUnifiedTopology: true},
 );
