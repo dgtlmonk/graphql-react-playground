@@ -1,16 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {gql} from 'apollo-boost';
 import {graphql} from 'react-apollo';
-
-const getAuthors = gql`
-  {
-    authors {
-      id
-      name
-    }
-  }
-`;
+import {qryAuthors} from '../queries';
 
 const Authors = ({authors}) =>
   authors.map(author => <div key={author.id}> {author.name}</div>);
@@ -37,4 +28,4 @@ AuthorList.propTypes = {
   data: PropTypes.object.isRequired,
 };
 
-export default graphql(getAuthors)(AuthorList);
+export default graphql(qryAuthors)(AuthorList);
