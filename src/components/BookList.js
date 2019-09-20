@@ -4,8 +4,13 @@ import PropTypes from 'prop-types';
 import {graphql} from 'react-apollo';
 import {qryBooks} from '../queries';
 import Book from './Book';
+import BookForm from './BookForm';
 
-const BooksContext = createContext();
+const initialFormStateVisibility = false;
+const BooksContext = createContext({});
+const Books = ({books}) =>
+  books.length &&
+  books.map(book => <Book key={book.id} book={book} />);
 
 function BookListConsumer(props) {
   return (
@@ -16,22 +21,24 @@ function BookListConsumer(props) {
   );
 }
 
-// FIXME: add `map` error handling
-const Books = ({books}) =>
-  books.map(book => <Book key={book.id} book={book} />);
-
 function BookList({children, data}) {
-  const [isAddFormVisible, handleAddNewBook] = useState(false);
-  const toggleFormVisibility = () => handleAddNewBook(s => !s);
+  const [isAddBookFormVisible, handleAddBook] = useState(
+    initialFormStateVisibility,
+  );
+
+  const toggleFormVisibility = () => handleAddBook(s => !s);
+  const handleAddNewBook = ({details}) => {
+    // eslint-disable-next-line no-console
+    console.log('add new book from Booklist called', details);
+  };
 
   return (
-    <BooksContext.Provider>
+    <BooksContext.Provider value={isAddBookFormVisible}>
       {React.cloneElement(children, {
-        data,
-        onClick: toggleFormVisibility,
+        onToggle: toggleFormVisibility,
+        onAddNewbook: handleAddNewBook,
       })}
-      <div>
-        {isAddFormVisible.toString()}
+      <div className="book-list">
         {data.loading ? (
           <div style={{padding: `1em`}}>
             Fetching data. please wait ..
@@ -46,16 +53,35 @@ function BookList({children, data}) {
   );
 }
 
-BookList.AddButton = ({onClick}) => (
-  <BookListConsumer>
-    {() => (
-      // eslint-disable-next-line react/button-has-type
-      <button onClick={onClick}>Add Book</button>
-    )}
-  </BookListConsumer>
-);
+BookList.AddNewBookForm = ({onToggle, onAddNewbook}) => {
+  return (
+    <BookListConsumer>
+      {isAddBookFormVisible => (
+        <div
+          className={
+            isAddBookFormVisible
+              ? `book-list__form--visible`
+              : `book-list__form--hidden`
+          }
+        >
+          <div className="book-list__add-btn">
+            <button type="button" onClick={onToggle}>
+              Add Book
+            </button>
+          </div>
+          <div className="book-list__form">
+            <BookForm onAddNewbook={onAddNewbook} />
+          </div>
+        </div>
+      )}
+    </BookListConsumer>
+  );
+};
 
 BookList.propTypes = {
+  //  `data` props is from ApolloProvider, hence it's shape
+  //  may change in the future, so we dont want to bread this
+  //  code
   // eslint-disable-next-line react/forbid-prop-types
   data: PropTypes.object.isRequired,
 };

@@ -1,3 +1,16 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+}
+
+.heading {
+  font-family: 'Archivo Black', sans-serif;
+}
+
+h1, h2,h3,h4 {
+  margin: 8px;
+}
+
 button {
   color: #fff;
   background-color: #007bff;
@@ -13,13 +26,42 @@ button {
   user-select: none;
   border: 1px solid transparent;
   padding: .375rem .75rem;
-  font-size: 1rem;
+  font-size: 12px;
   line-height: 1.5;
   border-radius: .25rem;
+  margin: 8px;
 }
 
 button:hover {
   color: #fff;
   background-color: #0069d9;
   border-color: #0062cc;
+}
+
+.book-list__form--visible .book-list__add-btn {
+  display: none;
+}
+
+.book-list__form--visible .book-list__form {
+  display: block;
+}
+
+.book-list__form--hidden .book-list__add-btn{
+  display: block;
+}
+
+.book-list__form--hidden .book-list__form {
+  display: none;
+}
+
+.add-book-form label, input {
+  padding: 8px;
+  font-size: 14px;
+  display: block;
+}
+
+.form-errors {
+  font-size: 14px;
+  font-weight: 500;
+  color: red;
 }
