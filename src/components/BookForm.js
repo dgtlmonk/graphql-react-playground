@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Input} from 'semantic-ui-react';
+import {Input, Button} from 'semantic-ui-react';
 import AuthorList from './AuthorList';
 import FormErrors from './FormErrors';
 
@@ -76,7 +76,9 @@ export default function BookForm({onAddNewbook}) {
         <div className="book-author">
           <AuthorList onSelect={onSelectAuthor} />
         </div>
-        <button type="submit">Save</button>
+        <Button primary type="submit" style={{margin: `1em`}}>
+          Save
+        </Button>
       </form>
     </>
   );

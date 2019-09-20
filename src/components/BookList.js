@@ -6,7 +6,7 @@ import {qryBooks} from '../queries';
 import Book from './Book';
 import BookForm from './BookForm';
 
-const initialFormStateVisibility = true;
+const initialFormStateVisibility = false;
 const BooksContext = createContext({});
 const Books = ({books}) =>
   books.length &&

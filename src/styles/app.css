@@ -74,3 +74,7 @@ input {
 .add-book-form {
   padding: 1em;
 }
+
+.add-book-form .book-name, .add-book-form  .book-genre, .add-book-form .book-author {
+  padding: 4px;
+}
