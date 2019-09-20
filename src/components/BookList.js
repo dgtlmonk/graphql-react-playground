@@ -6,7 +6,7 @@ import {qryBooks} from '../queries';
 import Book from './Book';
 import BookForm from './BookForm';
 
-const initialFormStateVisibility = false;
+const initialFormStateVisibility = true;
 const BooksContext = createContext({});
 const Books = ({books}) =>
   books.length &&
@@ -41,7 +41,7 @@ function BookList({children, data}) {
       <div className="book-list">
         {data.loading ? (
           <div style={{padding: `1em`}}>
-            Fetching data. please wait ..
+            fetching data, please wait ..
           </div>
         ) : (
           <div>
