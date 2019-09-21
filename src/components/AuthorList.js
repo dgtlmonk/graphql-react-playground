@@ -1,32 +1,39 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 import {graphql} from 'react-apollo';
-import {Select} from 'semantic-ui-react';
-import {qryAuthors} from '../queries';
-
-const serializeAuthors = ({authors}) => {
-  return authors.map(author => {
-    return {
-      key: `${author.id}`,
-      value: `${author.id}`,
-      text: `${author.name}`,
-    };
-  });
-};
+import {gqlAuthors} from '../queries';
 
 function AuthorList({data, onSelect}) {
+  const [author, setAuthor] = React.useState([]);
   const {authors} = data;
+
   return (
     <>
       {data.loading ? (
-        <span>loading authors ...</span>
+        <Select disabled placeholder="loading authors ..." />
       ) : (
-        <Select
-          label="Author"
-          placeholder="Select book author"
-          onChange={(e, {value}) => onSelect({author: value})}
-          options={serializeAuthors({authors})}
-        />
+        <FormControl style={{minWidth: `150px`}}>
+          <InputLabel htmlFor="select-authors">Author</InputLabel>
+          <Select
+            placeholder="Select book author"
+            value={author}
+            inputProps={{name: 'author', id: 'select-authors'}}
+            onChange={e => {
+              setAuthor(e.target.value);
+              onSelect({author: e.target.value});
+            }}
+          >
+            {authors.map(author => (
+              <MenuItem key={author.id} value={author.id}>
+                {author.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
       )}
     </>
   );
@@ -41,4 +48,4 @@ AuthorList.propTypes = {
   onSelect: PropTypes.func.isRequired,
 };
 
-export default graphql(qryAuthors)(AuthorList);
+export default graphql(gqlAuthors)(AuthorList);

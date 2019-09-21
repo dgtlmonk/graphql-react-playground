@@ -18,6 +18,7 @@
         ]
       }
     ],
+    "no-shadow":"warn",
     "prettier/prettier": "error",
     "max-len": [
       "error",

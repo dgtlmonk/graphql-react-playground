@@ -1,12 +1,13 @@
 /* eslint-disable react/prop-types */
 import React, {useState, createContext} from 'react';
-import PropTypes from 'prop-types';
+import Button from '@material-ui/core/Button';
 import {graphql} from 'react-apollo';
-import {qryBooks} from '../queries';
+import * as compose from 'lodash.flowright';
+import {gqlBooks, gqlAddBook} from '../queries';
 import Book from './Book';
 import BookForm from './BookForm';
 
-const initialFormStateVisibility = true;
+const initialFormStateVisibility = false;
 const BooksContext = createContext({});
 const Books = ({books}) =>
   books.length &&
@@ -21,7 +22,7 @@ function BookListConsumer(props) {
   );
 }
 
-function BookList({children, data}) {
+function BookList({gqlBookQuery, gqlAddBookMutation, children}) {
   const [isAddBookFormVisible, handleAddBook] = useState(
     initialFormStateVisibility,
   );
@@ -30,6 +31,7 @@ function BookList({children, data}) {
   const handleAddNewBook = ({details}) => {
     // eslint-disable-next-line no-console
     console.log('add new book from Booklist called', details);
+    gqlAddBookMutation({variables: {...details}});
   };
 
   return (
@@ -39,13 +41,13 @@ function BookList({children, data}) {
         onAddNewbook: handleAddNewBook,
       })}
       <div className="book-list">
-        {data.loading ? (
+        {gqlBookQuery.loading ? (
           <div style={{padding: `1em`}}>
             fetching data, please wait ..
           </div>
         ) : (
           <div>
-            <Books books={data.books} />
+            <Books books={gqlBookQuery.books} />
           </div>
         )}
       </div>
@@ -65,12 +67,20 @@ BookList.AddNewBookForm = ({onToggle, onAddNewbook}) => {
           }
         >
           <div className="book-list__add-btn">
-            <button type="button" onClick={onToggle}>
+            <Button
+              variant="contained"
+              type="button"
+              color="primary"
+              onClick={onToggle}
+            >
               Add Book
-            </button>
+            </Button>
           </div>
           <div className="book-list__form">
-            <BookForm onAddNewbook={onAddNewbook} />
+            <BookForm
+              onAddNewbook={onAddNewbook}
+              onCancel={onToggle}
+            />
           </div>
         </div>
       )}
@@ -78,12 +88,7 @@ BookList.AddNewBookForm = ({onToggle, onAddNewbook}) => {
   );
 };
 
-BookList.propTypes = {
-  //  `data` props is from ApolloProvider, hence it's shape
-  //  may change in the future, so we dont want to bread this
-  //  code
-  // eslint-disable-next-line react/forbid-prop-types
-  data: PropTypes.object.isRequired,
-};
-
-export default graphql(qryBooks)(BookList);
+export default compose(
+  graphql(gqlBooks, {name: 'gqlBookQuery'}),
+  graphql(gqlAddBook, {name: 'gqlAddBookMutation'}),
+)(BookList);

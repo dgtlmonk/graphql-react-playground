@@ -1,5 +1,7 @@
 import React, {useState, useReducer} from 'react';
-import {Input, Button} from 'semantic-ui-react';
+import Input from '@material-ui/core/Input';
+import Button from '@material-ui/core/Button';
+
 import {filterEmptyFormFields} from '../helpers/form';
 import AuthorList from './AuthorList';
 import FormErrors from './FormErrors';
@@ -22,25 +24,25 @@ function bookReducer(state, action) {
 }
 
 // eslint-disable-next-line react/prop-types
-export default function BookForm({onAddNewbook}) {
+export default function BookForm({onAddNewbook, onCancel}) {
   const [errors, setErrors] = useState(undefined);
+  const [reset, toggleReset] = useState(true);
   const [bookDetails, dispatch] = useReducer(
     bookReducer,
     initialState,
   );
-  const authorRef = React.useRef(null);
 
   function handleUpdateFieldChange({field, value}) {
     dispatch({type: 'update', payload: {field, value}});
   }
 
   function handleSelectAuthor({author}) {
-    authorRef.current.value = author;
     handleUpdateFieldChange({field: 'authorId', value: author});
   }
 
   function resetForm() {
     dispatch({type: 'reset'});
+    toggleReset(reset => !reset);
   }
 
   function handleSubmitForm(e) {
@@ -50,7 +52,7 @@ export default function BookForm({onAddNewbook}) {
     const [name, genre, authorId] = e.target.elements;
     const errorMessage = 'is required';
     const fieldErrors = filterEmptyFormFields(
-      ['name', 'genre', 'author'],
+      ['name', 'genre'],
       e.target,
       errorMessage,
     );
@@ -63,7 +65,7 @@ export default function BookForm({onAddNewbook}) {
     const details = {
       name: name.value,
       genre: genre.value,
-      author: authorId.value,
+      authorId: authorId.value,
     };
 
     setErrors(null);
@@ -79,6 +81,8 @@ export default function BookForm({onAddNewbook}) {
         <div className="book-name">
           <Input
             label="Name"
+            required
+            type="text"
             name="name"
             value={bookDetails.name}
             placeholder="Book name"
@@ -93,6 +97,7 @@ export default function BookForm({onAddNewbook}) {
         <div className="book-genre">
           <Input
             label="Genre"
+            required
             name="genre"
             placeholder="Genre"
             value={bookDetails.genre}
@@ -105,11 +110,23 @@ export default function BookForm({onAddNewbook}) {
           />
         </div>
         <div className="book-author">
-          <input type="hidden" name="author" ref={authorRef} />
-          <AuthorList onSelect={handleSelectAuthor} />
+          <AuthorList onSelect={handleSelectAuthor} reset={reset} />
         </div>
-        <Button primary type="submit" style={{margin: `1em`}}>
+        <Button
+          variant="contained"
+          type="submit"
+          color="primary"
+          style={{margin: `1em`}}
+        >
           Save
+        </Button>
+
+        <Button
+          type="button"
+          onClick={onCancel}
+          style={{margin: `1em`}}
+        >
+          Cancel
         </Button>
       </form>
     </>
