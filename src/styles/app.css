@@ -1,6 +1,7 @@
 body {
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
+  padding: 2em;
 }
 
 .heading {
@@ -76,5 +77,12 @@ input {
 }
 
 .add-book-form .book-name, .add-book-form  .book-genre, .add-book-form .book-author {
-  padding: 4px;
+  padding: .5em;
+}
+
+.form-errors {
+  margin: 8px;
+  background: red;
+  color: white;
+  padding: 1em;
 }

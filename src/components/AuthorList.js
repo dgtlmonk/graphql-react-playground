@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {graphql} from 'react-apollo';
-import {Dropdown} from 'semantic-ui-react';
+import {Select} from 'semantic-ui-react';
 import {qryAuthors} from '../queries';
 
 const serializeAuthors = ({authors}) => {
@@ -21,13 +21,9 @@ function AuthorList({data, onSelect}) {
       {data.loading ? (
         <span>loading authors ...</span>
       ) : (
-        <Dropdown
-          button
-          className="icon"
-          floating
-          labeled
+        <Select
           label="Author"
-          text="Select book author"
+          placeholder="Select book author"
           onChange={(e, {value}) => onSelect({author: value})}
           options={serializeAuthors({authors})}
         />
