@@ -6,6 +6,9 @@ import Icon from '@material-ui/core/Icon';
 // but generally not a good practice, so dont copy
 // this pattern, unless you or your team have
 // a good reason to :)
+//
+// This is just proof of concept mini-app
+// so im not really over-engineering things here :)
 
 const bookStyle = {
   wrapper: {
@@ -19,7 +22,7 @@ const bookStyle = {
     color: `#b75c97`,
   },
   bookName: {fontWeight: 900, fontSize: `18px`},
-  bookAuthor: {fontSize: `12px`},
+  bookAuthor: {fontSize: `12px`, width: `80%`},
 };
 
 function Book({book, onAuthorClick}) {
@@ -31,14 +34,16 @@ function Book({book, onAuthorClick}) {
       <div className="book-genre" style={bookStyle.bookGenre}>
         {String(book.genre).replace(/[*|]/g, `,`)}
       </div>
-      <div
-        role="presentation"
-        className="book-author"
-        style={bookStyle.bookAuthor}
-        onClick={() => onAuthorClick(book.author.id)}
-      >
-        <Icon color="primary">zoom_in</Icon>
-        {book.author.name}
+      <div>
+        <div
+          role="presentation"
+          className="book-author"
+          style={bookStyle.bookAuthor}
+          onClick={() => onAuthorClick(book.author.id)}
+        >
+          <Icon color="primary">perm_identity</Icon>
+          {book.author.name}
+        </div>
       </div>
     </div>
   );

@@ -45,6 +45,7 @@ Author.propTypes = {
     author: PropTypes.objectOf({
       name: PropTypes.string,
       id: PropTypes.number,
+      books: PropTypes.array,
     }),
   }),
 };

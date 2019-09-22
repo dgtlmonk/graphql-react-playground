@@ -8,7 +8,7 @@ import {graphql} from 'react-apollo';
 import * as compose from 'lodash.flowright';
 import {gqlBooks, gqlAddBook} from '../queries';
 import BookForm from './BookForm';
-import Author from './Author';
+import Author from './AuthorDetail';
 import Books from './Books';
 
 const initialFormStateVisibility = false;
