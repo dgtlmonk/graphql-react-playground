@@ -18,7 +18,7 @@
         ]
       }
     ],
-    "no-shadow":"warn",
+    "no-shadow":"off",
     "prettier/prettier": "error",
     "max-len": [
       "error",
