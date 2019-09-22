@@ -1,5 +1,9 @@
 # source: http://localhost:4000/graphql
 # timestamp: Wed Sep 18 2019 14:35:54 GMT+0800 (PST)
+#
+# The purpose of having schema is to provide query hints, one of which
+# is VSCode or Postman (BETA feature as of the moment)
+# this is generated via `graphql get-schema ` from graphql-cli command
 
 schema {
   query: RootQueryType

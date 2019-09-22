@@ -1,43 +1,94 @@
-import React from 'react';
-import {gql} from 'apollo-boost';
+/* eslint-disable react/prop-types */
+import React, {useState, createContext} from 'react';
+import Button from '@material-ui/core/Button';
 import {graphql} from 'react-apollo';
-import PropTypes from 'prop-types';
+import * as compose from 'lodash.flowright';
+import {gqlBooks, gqlAddBook} from '../queries';
+import Book from './Book';
+import BookForm from './BookForm';
 
-const getBooks = gql`
-  {
-    books {
-      id
-      name
-      genre
-    }
-  }
-`;
-
+const initialFormStateVisibility = false;
+const BooksContext = createContext({});
 const Books = ({books}) =>
-  books.map(book => (
-    <div key={book.id}>
-      {book.name}
-      <div>{book.genre}</div>
-    </div>
-  ));
+  books.length &&
+  books.map(book => <Book key={book.id} book={book} />);
 
-function BookList({data}) {
+function BookListConsumer(props) {
   return (
-    <div>
-      {data.loading ? (
-        <div>loading data</div>
-      ) : (
-        <div>
-          {' '}
-          <Books books={data.books} />
-        </div>
-      )}
-    </div>
+    // eslint-disable-next-line react/jsx-props-no-spreading
+    <BooksContext.Consumer {...props}>
+      {context => props.children(context)}
+    </BooksContext.Consumer>
   );
 }
 
-BookList.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  data: PropTypes.object.isRequired,
+function BookList({gqlBookQuery, gqlAddBookMutation, children}) {
+  const [isAddBookFormVisible, handleAddBook] = useState(
+    initialFormStateVisibility,
+  );
+
+  const toggleFormVisibility = () => handleAddBook(s => !s);
+  const handleAddNewBook = ({details}) => {
+    // eslint-disable-next-line no-console
+    console.log('add new book from Booklist called', details);
+    gqlAddBookMutation({
+      variables: {...details},
+      refetchQueries: [{query: gqlBooks}],
+    });
+  };
+
+  return (
+    <BooksContext.Provider value={isAddBookFormVisible}>
+      {React.cloneElement(children, {
+        onToggle: toggleFormVisibility,
+        onAddNewbook: handleAddNewBook,
+      })}
+      <div className="book-list">
+        {gqlBookQuery.loading ? (
+          <div style={{padding: `1em`}}>
+            fetching data, please wait ..
+          </div>
+        ) : (
+          <div>
+            <Books books={gqlBookQuery.books} />
+          </div>
+        )}
+      </div>
+    </BooksContext.Provider>
+  );
+}
+
+BookList.AddNewBookForm = ({onToggle, onAddNewbook}) => {
+  return (
+    <BookListConsumer>
+      {isAddBookFormVisible => (
+        <div
+          className={
+            isAddBookFormVisible
+              ? `book-list__form--visible`
+              : `book-list__form--hidden`
+          }
+        >
+          <div className="book-list__add-btn">
+            <Button
+              variant="contained"
+              type="button"
+              color="primary"
+              onClick={onToggle}
+            >
+              Add Book
+            </Button>
+          </div>
+          <div className="book-list__form">
+            <BookForm onAddNewbook={onAddNewbook} onBack={onToggle} />
+          </div>
+        </div>
+      )}
+    </BookListConsumer>
+  );
 };
-export default graphql(getBooks)(BookList);
+
+export default compose(
+  graphql(gqlBooks, {name: 'gqlBookQuery'}),
+  graphql(gqlAddBook, {name: 'gqlAddBookMutation'}),
+)(BookList);

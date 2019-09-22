@@ -1,0 +1,70 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  padding: 2em;
+}
+
+.heading {
+  font-family: 'Archivo Black', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 8px;
+}
+
+
+
+
+.book-list__form--visible .book-list__add-btn {
+  display: none;
+}
+
+.book-list__form--visible .book-list__form {
+  display: block;
+}
+
+.book-list__form--hidden .book-list__add-btn {
+  display: block;
+}
+
+.book-list__form--hidden .book-list__form {
+  display: none;
+}
+
+.add-book-form label,
+input {
+  font-size: 14px;
+  display: block;
+}
+
+.form-errors {
+  font-size: 14px;
+  font-weight: 500;
+  color: red;
+}
+
+
+.add-book-form {
+  padding: 1em;
+}
+
+.add-book-form .book-name,
+.add-book-form .book-genre,
+.add-book-form .book-author {
+  padding: .5em;
+}
+
+.form-errors {
+  margin: 8px;
+  background: red;
+  color: white;
+  padding: 1em;
+}
+
+.MuiSelect-root {
+  margin: 8px;
+  min-width: 200px
+}
