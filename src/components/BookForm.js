@@ -2,7 +2,7 @@ import React, {useState, useReducer} from 'react';
 import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
 
-import {filterEmptyFormFields} from '../helpers/form';
+import {validateFormFields} from '../helpers/form';
 import AuthorList from './AuthorList';
 import FormErrors from './FormErrors';
 
@@ -51,8 +51,8 @@ export default function BookForm({onAddNewbook, onCancel}) {
     setErrors(null);
     const [name, genre, authorId] = e.target.elements;
     const errorMessage = 'is required';
-    const fieldErrors = filterEmptyFormFields(
-      ['name', 'genre'],
+    const fieldErrors = validateFormFields(
+      ['name', 'genre', 'author'],
       e.target,
       errorMessage,
     );

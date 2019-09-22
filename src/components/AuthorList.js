@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
+// import MenuItem from '@material-ui/core/MenuItem';
 import {graphql} from 'react-apollo';
 import {gqlAuthors} from '../queries';
 
@@ -19,6 +19,8 @@ function AuthorList({data, onSelect}) {
         <FormControl style={{minWidth: `150px`}}>
           <InputLabel htmlFor="select-authors">Author</InputLabel>
           <Select
+            required
+            native
             placeholder="Select book author"
             value={author}
             inputProps={{name: 'author', id: 'select-authors'}}
@@ -27,10 +29,11 @@ function AuthorList({data, onSelect}) {
               onSelect({author: e.target.value});
             }}
           >
+            <option value="" aria-label="select author" />
             {authors.map(author => (
-              <MenuItem key={author.id} value={author.id}>
+              <option key={author.id} value={author.id}>
                 {author.name}
-              </MenuItem>
+              </option>
             ))}
           </Select>
         </FormControl>

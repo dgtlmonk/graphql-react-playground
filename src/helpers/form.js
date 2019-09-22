@@ -1,12 +1,12 @@
 /**
- * filterEmptyFormFields - check for empty form fields and return errors
+ * validateFormFields - check for empty form fields and return errors
  *
  * @param {any} aFields - list of fields (field name) to check
  * @param {any} iForm - form instance
  * @param {any} errorMessage - error message if error
  * @returns
  */
-function filterEmptyFormFields(
+function validateFormFields(
   aFields,
   iForm,
   errorMessage = `is required`,
@@ -23,4 +23,4 @@ function filterEmptyFormFields(
 }
 
 // eslint-disable-next-line import/prefer-default-export
-export {filterEmptyFormFields};
+export {validateFormFields};
