@@ -16,7 +16,9 @@ h4 {
 }
 
 
-
+.playground__content {
+  min-width: 580px;
+}
 
 .book-list__form--visible .book-list__add-btn {
   display: none;
@@ -61,6 +63,7 @@ input {
   display: flex;
   align-items: center;
   margin: 4px;
+  cursor: pointer;
 }
 
 .form-errors {
@@ -70,7 +73,29 @@ input {
   padding: 1em;
 }
 
-.MuiSelect-root {
-  margin: 8px;
-  min-width: 200px
+.book-list {
+  display: flex;
+  justify-content: space-between;
+}
+
+.book-list__author {
+  width: 40%;
+  height: auto;
+  position: sticky;
+  top: 10px;
+}
+
+.author-info .author-info__name {
+  display: flex;
+  align-items: center
+}
+
+
+.author-info__books p {
+  margin: 8px 0 4px;
+  font-weight: bolder;
+}
+.author-info__books {
+  font-size: 12px;
+  font-weight: 700;
 }

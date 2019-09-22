@@ -16,6 +16,7 @@ const gqlBooks = gql`
       name
       genre
       author {
+        id
         name
       }
     }

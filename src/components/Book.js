@@ -22,7 +22,7 @@ const bookStyle = {
   bookAuthor: {fontSize: `12px`},
 };
 
-const Book = ({book}) => {
+function Book({book, onAuthorClick}) {
   return (
     <div key={book.id} className="book" style={bookStyle.wrapper}>
       <div className="book-name" style={bookStyle.bookName}>
@@ -31,13 +31,18 @@ const Book = ({book}) => {
       <div className="book-genre" style={bookStyle.bookGenre}>
         {String(book.genre).replace(/[*|]/g, `,`)}
       </div>
-      <div className="book-author" style={bookStyle.bookAuthor}>
+      <div
+        role="presentation"
+        className="book-author"
+        style={bookStyle.bookAuthor}
+        onClick={() => onAuthorClick(book.author.id)}
+      >
         <Icon color="primary">zoom_in</Icon>
         {book.author.name}
       </div>
     </div>
   );
-};
+}
 
 Book.propTypes = {
   book: PropTypes.shape({
@@ -46,6 +51,7 @@ Book.propTypes = {
     genre: PropTypes.string.isRequired,
     author: PropTypes.object,
   }).isRequired,
+  onAuthorClick: PropTypes.func.isRequired,
 };
 
 export default Book;

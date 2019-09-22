@@ -1,17 +1,18 @@
 /* eslint-disable react/prop-types */
 import React, {useState, createContext} from 'react';
 import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+
 import {graphql} from 'react-apollo';
 import * as compose from 'lodash.flowright';
 import {gqlBooks, gqlAddBook} from '../queries';
-import Book from './Book';
 import BookForm from './BookForm';
+import Author from './Author';
+import Books from './Books';
 
 const initialFormStateVisibility = false;
 const BooksContext = createContext({});
-const Books = ({books}) =>
-  books.length &&
-  books.map(book => <Book key={book.id} book={book} />);
 
 function BookListConsumer(props) {
   return (
@@ -26,7 +27,7 @@ function BookList({gqlBookQuery, gqlAddBookMutation, children}) {
   const [isAddBookFormVisible, handleAddBook] = useState(
     initialFormStateVisibility,
   );
-
+  const [authorId, setAuthorId] = useState(null);
   const toggleFormVisibility = () => handleAddBook(s => !s);
   const handleAddNewBook = ({details}) => {
     // eslint-disable-next-line no-console
@@ -37,20 +38,42 @@ function BookList({gqlBookQuery, gqlAddBookMutation, children}) {
     });
   };
 
+  function handleAuthorClick(authorId) {
+    setAuthorId(authorId);
+  }
+
   return (
     <BooksContext.Provider value={isAddBookFormVisible}>
       {React.cloneElement(children, {
         onToggle: toggleFormVisibility,
         onAddNewbook: handleAddNewBook,
       })}
-      <div className="book-list">
+      <div>
         {gqlBookQuery.loading ? (
           <div style={{padding: `1em`}}>
             fetching data, please wait ..
           </div>
         ) : (
-          <div>
-            <Books books={gqlBookQuery.books} />
+          <div className="book-list">
+            <div>
+              <Books
+                books={gqlBookQuery.books}
+                onAuthorClick={handleAuthorClick}
+              />
+            </div>
+            <div style={{width: `50%`}}>
+              <Card
+                className="book-list__author"
+                style={{
+                  display: authorId ? ` block` : ` none`,
+                  width: `auto`,
+                }}
+              >
+                <CardContent>
+                  <Author authorId={authorId} />
+                </CardContent>
+              </Card>
+            </div>
           </div>
         )}
       </div>
