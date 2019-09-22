@@ -31,7 +31,10 @@ function BookList({gqlBookQuery, gqlAddBookMutation, children}) {
   const handleAddNewBook = ({details}) => {
     // eslint-disable-next-line no-console
     console.log('add new book from Booklist called', details);
-    gqlAddBookMutation({variables: {...details}});
+    gqlAddBookMutation({
+      variables: {...details},
+      refetchQueries: [{query: gqlBooks}],
+    });
   };
 
   return (
@@ -77,10 +80,7 @@ BookList.AddNewBookForm = ({onToggle, onAddNewbook}) => {
             </Button>
           </div>
           <div className="book-list__form">
-            <BookForm
-              onAddNewbook={onAddNewbook}
-              onCancel={onToggle}
-            />
+            <BookForm onAddNewbook={onAddNewbook} onBack={onToggle} />
           </div>
         </div>
       )}

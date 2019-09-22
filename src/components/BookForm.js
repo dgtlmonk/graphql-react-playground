@@ -24,7 +24,7 @@ function bookReducer(state, action) {
 }
 
 // eslint-disable-next-line react/prop-types
-export default function BookForm({onAddNewbook, onCancel}) {
+export default function BookForm({onAddNewbook, onBack}) {
   const [errors, setErrors] = useState(undefined);
   const [reset, toggleReset] = useState(true);
   const [bookDetails, dispatch] = useReducer(
@@ -71,6 +71,7 @@ export default function BookForm({onAddNewbook, onCancel}) {
     setErrors(null);
     resetForm();
     onAddNewbook({details});
+    onBack();
   }
 
   return (
@@ -123,7 +124,7 @@ export default function BookForm({onAddNewbook, onCancel}) {
 
         <Button
           type="button"
-          onClick={onCancel}
+          onClick={onBack}
           style={{margin: `1em`}}
         >
           Cancel
