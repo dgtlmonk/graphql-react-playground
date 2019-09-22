@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Icon from '@material-ui/core/Icon';
 
 // having CSS inside JS is case-to-case basis
 // but generally not a good practice, so dont copy
@@ -31,6 +32,7 @@ const Book = ({book}) => {
         {String(book.genre).replace(/[*|]/g, `,`)}
       </div>
       <div className="book-author" style={bookStyle.bookAuthor}>
+        <Icon color="primary">zoom_in</Icon>
         {book.author.name}
       </div>
     </div>

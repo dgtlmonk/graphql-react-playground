@@ -57,6 +57,12 @@ input {
   padding: .5em;
 }
 
+.book-list .book .book-author {
+  display: flex;
+  align-items: center;
+  margin: 4px;
+}
+
 .form-errors {
   margin: 8px;
   background: red;

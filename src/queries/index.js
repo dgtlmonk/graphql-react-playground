@@ -31,22 +31,18 @@ const gqlAddBook = gql`
   }
 `;
 
-const gqlBook = gql`
+const gqlAuthor = gql`
   query($id: ID) {
-    book(id: $id) {
+    author(id: $id) {
       id
       name
-      genre
-      author {
+      books {
         id
         name
-        books {
-          name
-          id
-        }
+        genre
       }
     }
   }
 `;
 
-export {gqlAuthors, gqlBooks, gqlBook, gqlAddBook};
+export {gqlAuthors, gqlBooks, gqlAuthor, gqlAddBook};
