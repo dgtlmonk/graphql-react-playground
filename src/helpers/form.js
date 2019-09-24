@@ -4,7 +4,7 @@
  * @param {any} aFields - list of fields (field name) to check
  * @param {any} iForm - form instance
  * @param {any} errorMessage - error message if error
- * @returns
+ * @returns {array}
  */
 function validateFormFields(
   aFields,
@@ -22,5 +22,4 @@ function validateFormFields(
   return keyErrors;
 }
 
-// eslint-disable-next-line import/prefer-default-export
 export {validateFormFields};
