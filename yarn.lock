@@ -3723,6 +3723,10 @@ eslint@^6.1.0, eslint@^6.4.0:
     text-table "^0.2.0"
     v8-compile-cache "^2.0.3"
 
+esm@3.2.25:
+  version "3.2.25"
+  resolved "https://registry.yarnpkg.com/esm/-/esm-3.2.25.tgz#342c18c29d56157688ba5ce31f8431fbb795cc10"
+
 espree@^6.1.1:
   version "6.1.1"
   resolved "https://registry.yarnpkg.com/espree/-/espree-6.1.1.tgz#7f80e5f7257fc47db450022d723e356daeb1e5de"
@@ -8318,6 +8322,12 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
   dependencies:
     hash-base "^3.0.0"
     inherits "^2.0.1"
+
+riteway-jest@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/riteway-jest/-/riteway-jest-1.1.0.tgz#324c7c3c0ef7f29a50a2f6b7cae2aabb3bd586bf"
+  dependencies:
+    esm "3.2.25"
 
 rsvp@^4.8.4:
   version "4.8.5"

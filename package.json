@@ -28,7 +28,8 @@
     "jest-matcher-utils": "^24.9.0",
     "lint-staged": "^9.2.5",
     "prettier": "^1.18.2",
-    "react-scripts": "^3.1.1"
+    "react-scripts": "^3.1.1",
+    "riteway-jest": "^1.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
