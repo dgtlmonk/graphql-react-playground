@@ -62,29 +62,29 @@ describe('validateFormFields()', () => {
   const inputGender = comp.getByTestId('gender');
 
   fireEvent.change(inputGender, {target: {value: '1'}});
-  fireEvent.click(comp.getByText(/submit/gi));
+  fireEvent.click(comp.getByText(/submit/i));
 
-  let got = comp.getByTestId('error', {selector: 'div'});
+  let got = getNodeText(comp.getByTestId('error', {selector: 'div'}));
   let want = 'name error.age error.';
 
   assert({
     given: 'a missing required name and age field input values',
     should: `display ${want}`,
-    actual: getNodeText(got),
+    actual: got,
     expected: want,
   });
 
   fireEvent.change(inputGender, {target: {value: 'male'}});
   fireEvent.change(inputAge, {target: {value: '20'}});
-  fireEvent.click(comp.getByText(/submit/gi));
+  fireEvent.click(comp.getByText(/submit/i));
 
-  got = comp.getByTestId('error', {selector: 'div'});
+  got = getNodeText(comp.getByTestId('error', {selector: 'div'}));
   want = 'name error.';
 
   assert({
-    given: 'a missing required name',
+    given: 'a missing required name input value',
     should: `display ${want}`,
-    actual: getNodeText(got),
+    actual: got,
     expected: want,
   });
 
