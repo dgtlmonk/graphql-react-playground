@@ -13,7 +13,7 @@
   "author": "Joel Pablo <hello@dgtlmonk.dev>",
   "license": "ISC",
   "dependencies": {
-    "apollo-server-express": "^2.9.3",
+    "apollo-server-express": "^2.14.2",
     "body-parser": "^1.19.0",
     "chalk": "^2.4.2",
     "cors": "^2.8.5",
