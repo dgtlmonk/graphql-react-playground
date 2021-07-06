@@ -17,6 +17,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^4.1.0",
     "@testing-library/react": "^9.1.4",
+    "cross-env": "^6.0.0",
     "eslint": "^6.4.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.3.0",
@@ -28,11 +29,12 @@
     "jest-matcher-utils": "^24.9.0",
     "lint-staged": "^9.2.5",
     "prettier": "^1.18.2",
-    "react-scripts": "^3.1.1"
+    "react-scripts": "^3.1.1",
+    "riteway-jest": "^1.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "NODE_ENV=prodution react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "test:coverage": "npm run test -- --coverage",
     "lint": "eslint src -c .eslintrc --ext js,jsx"
